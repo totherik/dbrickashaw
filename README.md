@@ -101,7 +101,8 @@ Removes the provided emitter from observation by the Relay.
 Removes all emitters from observation by the Relay.
 
 
-### Basic Usage - Producer
+## Basic Examples
+#### Producer
 ```javascript
 // mymodule/index.js (or wherever your exported module API resides)
 import Dbrickashaw from 'dbrickashaw'
@@ -125,7 +126,7 @@ export function run() {
  ```
 
 
-#### Basic Usage = Consumer
+#### Consumer
 ```javascript
 // consumer.js
 import themodule from 'themodule'
@@ -139,7 +140,7 @@ themodule.doThings();
 ```
 
 
-#### Basic Usage - Producer and Consumer
+#### Producer and Consumer
 ```javascript
 // producer_and_consumer.js
 import themodule from 'themodule'
@@ -147,7 +148,8 @@ import Dbrickashaw from 'dbrickashaw';
 
 export const logger = Dbrickashaw.getRelay().register(themodule);
 
+## Basic Examples
 
-themodule.doThings();
+theodule.doThings();
 
 ```
