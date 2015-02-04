@@ -2,7 +2,7 @@
   "name": "dbrickashaw",
   "version": "1.1.0",
   "description": "A simple logging helper for npm modules.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "install": "npm run compile",
     "test": "npm run compile && 6to5-node test/harness.js test/**/*-test.js",
