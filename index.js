@@ -5,6 +5,7 @@ import debuglog from 'debuglog';
 import { EventEmitter } from 'events';
 
 
+export const logger = new Relay();
 
 export default class Dbrickashaw extends EventEmitter {
 

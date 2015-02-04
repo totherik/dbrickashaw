@@ -6,7 +6,7 @@ dbrickashaw
 // index.js (module API)
 import { Relay } from 'dbrickashaw'
 
-export let logger = Relay.create();
+export const logger = Relay.create();
  ```
 
  ```javascript
@@ -15,7 +15,7 @@ import Dbrickashaw from 'dbrickashaw';
 
 let logger = Dbrickashaw.createLogger();
 
-export let function foo() {
+export function foo() {
 	 logger.log('info', 'Foo called.');
 }
  ```
