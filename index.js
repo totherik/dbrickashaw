@@ -13,15 +13,19 @@ export default class Dbrickashaw extends EventEmitter {
         EventEmitter.call(this);
 
         if (Common.isAbsolutePath(name)) {
-            let root = Common.findModuleRoot(name);
-            name = Path.relative(root, name);
+            let pkg = Common.findFile(name, 'package.json');
+            if (pkg) {
+                let root = Path.dirname(pkg);
+                name = Path.relative(root, name);
+                name = require(pkg).name + ':' + name;
+            }
         }
 
         this.name = name;
         this.debuglog = debuglog(name);
-        this.on('log', ({ ts, tags, message }) => {
-            message = typeof message === 'string' ? message : JSON.stringify(message);
-            this.debuglog('%d\t%s\t%s', ts, tags.join(','), message);
+        this.on('log', ({ ts, tags, data }) => {
+            data = typeof data === 'string' ? data : JSON.stringify(data);
+            this.debuglog('%d\t%s\t%s', ts, tags.join(','), data);
         });
 
         for (let level of LEVELS) {
@@ -105,7 +109,7 @@ export class Common {
 
     static findModuleRoot(dir) {
         let root = Common.findFile(dir, 'package.json');
-        return Path.dirname(root);
+        return root ? Path.dirname(root) : undefined;
     }
 
     static findFile(dir, file) {
