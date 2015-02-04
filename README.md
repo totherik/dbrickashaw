@@ -22,8 +22,6 @@ import Dbrickashaw from 'dbrickashaw';
 
 let log = Dbrickashaw.createLogger(/* optional name*/);
 
-export const logger = Dbrickashaw.getRelay();
-
 export function doMyJob() {
 	log.debug('atag', 'My message.');
 }
@@ -36,12 +34,16 @@ prescriptive as to what they choose to do with the data. This is where the `Rela
 logging information your module may produce.
 ```javascript
 // producer.js
+import Dbrickashaw from 'dbrickashaw';
+
+export const logger = Dbrickashaw.getRelay();
+```
 
 ```javascript
 // consumer.js
-import themodule from 'themodule';
+import producer from 'producer';
 
-themodule.logger.on('log', ({ source, ts, tags, data }) => {
+producer.logger.on('log', ({ source, ts, tags, data }) => {
 	// Write the information to the logging appender/mechanism you choose.
 });
 ```
@@ -50,15 +52,14 @@ Furthermore, if you as a module author choose to expose your logging data as wel
 consume that may use `dbrickashaw`, you can simply compose and expose relays.
 
 ```javascript
-// consumer.js
-import themodule from 'themodule';
+// consumer_and_producer.js
+import producer from 'producer';
 import Dbrickashaw from 'dbrickashaw';
 
-export const logger = Dbrickashaw.getRelay().register(themodule);
+export const logger = Dbrickashaw.getRelay().register(producer);
 ```
 
 #### API
-...
 
 #### Basic Usage
 ```javascript
