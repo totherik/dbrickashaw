@@ -3,7 +3,7 @@ dbrickashaw
 
 #### Basic Usage
 ```javascript
-// mymodule (index.js, or wherever your exported module API resides)
+// mymodule/index.js (or wherever your exported module API resides)
 import Dbrickashaw from 'dbrickashaw'
 import mycode from './mycode.js';
 
@@ -14,7 +14,7 @@ export function doThings() {
 ```
 
 ```javascript
-// mycode.js (or any file in your module, really.)
+// mymodule/mycode.js (or any file in your module, really.)
 import Dbrickashaw from 'dbrickashaw';
 
 let logger = Dbrickashaw.createLogger();
