@@ -73,7 +73,8 @@ directory containing a `package.json` file), so for example: `mymodule:lib/myfil
 ##### `log(tags, data)`
 
 - `tags` (String or array of strings) - These tags are always emitted on the log
-event as an array of of strings.
+event as an array of of strings. NOTE: If no additional tags are desired, pass a
+falsy value, such as `null` in the first position.
 - `data` The data payload to be logged. Emitter on the log event as `data`.
 
 NOTE: In addition to the generic log method, the following methods are also available:

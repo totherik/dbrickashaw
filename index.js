@@ -37,10 +37,11 @@ export default class Dbrickashaw extends EventEmitter {
 
         // Add methods for each logging level.
         for (let level of LEVELS) {
-            this[level] = function (tags = [], ...rest) {
-                tags = Array.isArray(tags) ? tags :[ tags ];
+            this[level] = function (tags, ...rest) {
                 // Automatically insert current level into tags array.
-                this.log([level, ...tags], ...rest);
+                tags = tags || [];
+                tags = Array.isArray(tags) ? tags : [ tags ];
+                this._log([level, ...tags], ...rest);
             }
         }
 
@@ -56,14 +57,19 @@ export default class Dbrickashaw extends EventEmitter {
     }
 
     log(tags, data) {
+        tags = tags || [];
+        tags = Array.isArray(tags) ? tags : [ tags ];
+        this._log(tags, data);
+    }
+
+    _log(tags, data) {
         this.emit('log', {
             source: this.name,
             ts: Date.now(),
-            tags: Array.isArray(tags) ? tags : [ tags ],
+            tags: tags,
             data
         });
     }
-
 }
 
 

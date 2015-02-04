@@ -9,4 +9,4 @@ logger.on('log', function ({ source, ts, tags, data }) {
 
 // This would be used throughout your project.
 let log = Dbrickashaw.createLogger();
-log.log('foo', { bar: 'bar'});
+log.info(['bar', 'foo'], { bar: 'bar'});
