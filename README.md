@@ -84,7 +84,7 @@ given level.
 
 ## Relay
 ##### `Dbrickashaw.getRelay()`
-Get the relay for the current module.
+Get the relay for the current module. A Relay is also an EventEmitter
 
 ### Methods
 ##### `register(emitter | { logger = Emitter })`
@@ -100,6 +100,21 @@ Removes the provided emitter from observation by the Relay.
 ##### `clear()`
 Removes all emitters from observation by the Relay.
 
+### Events
+##### `'log'`
+The event emitter when a downstream logger logs. The provided data has the
+following properties:
+- `source` - The name of the logger that logged the event.
+- `tags` - An array of strings.
+- `ts` - The time, in milliseconds, when the logging occurred.
+- `data` - Arbitrary data that was provided when invoking the log method.
+
+```javascript
+// example.js
+logger.on('log', ({ source, tags, ts, data }) => {
+	console.log(source, data);
+});
+```
 
 ## Basic Examples
 #### Producer
