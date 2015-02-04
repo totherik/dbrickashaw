@@ -12,7 +12,11 @@ export default class Dbrickashaw extends EventEmitter {
     constructor(name = caller()) {
         EventEmitter.call(this);
 
+
         if (Common.isAbsolutePath(name)) {
+            // Derive a logger name from module name and path relative to module root.
+            // e.g. "dbrickashaw:index.js" If a name can't be derived, default to
+            // absolute path to file.
             let pkg = Common.findFile(name, 'package.json');
             if (pkg) {
                 let root = Path.dirname(pkg);
@@ -23,14 +27,19 @@ export default class Dbrickashaw extends EventEmitter {
 
         this.name = name;
         this.debuglog = debuglog(name);
+
+        // register debuglog as a default log handler. Is opt-in by default,
+        // so is a noop unless NODE_DEBUG is enabled for a particular name.
         this.on('log', ({ ts, tags, data }) => {
             data = typeof data === 'string' ? data : JSON.stringify(data);
             this.debuglog('%d\t%s\t%s', ts, tags.join(','), data);
         });
 
+        // Add methods for each logging level.
         for (let level of LEVELS) {
-            this[level] = function (tags, ...rest) {
-                tags = Array.isArray(tags) ? tags : [ tags ];
+            this[level] = function (tags = [], ...rest) {
+                tags = Array.isArray(tags) ? tags :[ tags ];
+                // Automatically insert current level into tags array.
                 this.log([level, ...tags], ...rest);
             }
         }
