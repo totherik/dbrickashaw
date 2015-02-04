@@ -5,8 +5,6 @@ import Dbrickashaw from '../dist/index';
 
 test('Dbrickashaw', function (t) {
 
-
-
     t.test('instance', t => {
         let name = 'dbrickashaw:' + Path.join(Path.basename(__dirname), Path.basename(__filename));
         let logger = new Dbrickashaw();

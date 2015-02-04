@@ -56,7 +56,7 @@ consume that may use `dbrickashaw`, you can simply compose and expose relays.
 import producer from 'producer';
 import Dbrickashaw from 'dbrickashaw';
 
-export const logger = Dbrickashaw.getRelay().register(producer);
+export const logger = Dbrickashaw.getRelay().observe(producer);
 ```
 
 # API
@@ -88,14 +88,14 @@ given level.
 Get the relay for the current module. A Relay is also an EventEmitter
 
 ### Methods
-##### `register(emitter | { logger = Emitter })`
-Register the provided emitter with the current relay. This emitter's `log`
+##### `observe(emitter | { logger = Emitter })`
+Start observing the provided emitter with the current relay. This emitter's `log`
 events will by proxied through this Relay.
 - `emitter` (EventEmitter or object with a `logger` property to which an
 Event Emitter is assigned.) This is the object whose `log` events will be
 observed and relayed to Relay observers.
 
-##### `unregister(emitter | { logger = Emitter })`
+##### `unobserve(emitter | { logger = Emitter })`
 Removes the provided emitter from observation by the Relay.
 
 ##### `clear()`
@@ -162,7 +162,7 @@ themodule.doThings();
 import themodule from 'themodule'
 import Dbrickashaw from 'dbrickashaw';
 
-export const logger = Dbrickashaw.getRelay().register(themodule);
+export const logger = Dbrickashaw.getRelay().observe(themodule);
 
 themodule.doThings();
 ```

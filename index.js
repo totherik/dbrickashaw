@@ -45,7 +45,7 @@ export default class Dbrickashaw extends EventEmitter {
             }
         }
 
-        Dbrickashaw.getRelay().register(this);
+        Dbrickashaw.getRelay().observe(this);
     }
 
     static getRelay() {
@@ -83,7 +83,7 @@ export class Relay extends EventEmitter {
         return new Relay();
     }
 
-    register({ logger = arguments[0] }) {
+    observe({ logger = arguments[0] }) {
         // Allow a module to be passed provided it exports a property named logger.
         // Otherwise assume the provided argument is the emitter itself.
         if (!(logger === this) && !this.emitters.has(logger)) {
@@ -97,7 +97,7 @@ export class Relay extends EventEmitter {
         return this;
     }
 
-    unregister({ logger = arguments[0] }) {
+    unobserve({ logger = arguments[0] }) {
         // Allow a module to be passed provided it exports a property named logger.
         // Otherwise assume the provided argument is the emitter itself.
         if (this.emitters.has(logger)) {

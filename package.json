@@ -4,7 +4,7 @@
   "description": "A simple logging helper for npm modules.",
   "main": "dist/index.js",
   "scripts": {
-    "install": "npm run compile",
+    "prepublish": "npm run compile",
     "test": "npm run compile && 6to5-node test/harness.js test/**/*-test.js",
     "start": "npm run compile && node server.js",
     "compile": "6to5 --optional selfContained --modules common --out-dir dist index.js"
@@ -16,12 +16,12 @@
   "author": "Erik Toth <totherik@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "6to5": "^3.3.10",
-    "6to5-runtime": "^3.3.10",
     "caller": "^1.0.0",
     "debuglog": "^1.0.1"
   },
   "devDependencies": {
+    "6to5": "^3.3.10",
+    "6to5-runtime": "^3.3.10",
     "glob": "^4.3.5",
     "tape": "^3.5.0"
   }
