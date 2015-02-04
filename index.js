@@ -44,6 +44,36 @@ export default class Dbrickashaw extends EventEmitter {
 }
 
 
+export class Relay extends EventEmitter {
+    constructor() {
+        this.emitters = new WeakMap();
+    }
+
+    static create() {
+        return new Relay();
+    }
+
+    register(emitter) {
+        if (!this.emitters.has(emitter)) {
+            let handler = () => {
+                this.emit('log', ...arguments);
+            };
+
+            this.emitters.set(emitter, handler);
+            emitter.on('log', handler);
+        }
+    }
+
+    unregister(emitter) {
+        if (this.emitters.has(emitter)) {
+            let handler = this.emitters.get(emitter);
+            emitter.removeListener('log', handler);
+            this.emitters.delete(emitter);
+        }
+    }
+}
+
+
 export class Common {
 
     static isAbsolutePath(path) {
