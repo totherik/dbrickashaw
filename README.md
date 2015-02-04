@@ -4,10 +4,10 @@ dbrickashaw
 #### Basic Usage
 ```javascript
 // mymodule (index.js, or wherever your exported module API resides)
-import { relay as logger } from 'dbrickashaw'
+import Dbrickashaw from 'dbrickashaw'
 import mycode from './mycode.js';
 
-export const logger = logger;
+export const logger = Dbrickashaw.getRelay();
 export function doThings() {
 	mycode.run();
 }
@@ -17,7 +17,7 @@ export function doThings() {
 // mycode.js (or any file in your module, really.)
 import Dbrickashaw from 'dbrickashaw';
 
-let logger = new Dbrickashaw();
+let logger = Dbrickashaw.createLogger();
 
 export function run() {
 	 logger.log('info', 'Foo called.');
