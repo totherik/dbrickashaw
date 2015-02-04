@@ -4,9 +4,9 @@ dbrickashaw
 #### Basic Usage
 ```javascript
 // index.js (module API)
-import { Relay } from 'dbrickashaw'
+import { relay as logger } from 'dbrickashaw'
 
-export const logger = Relay.create();
+export const logger = logger;
  ```
 
  ```javascript

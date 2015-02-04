@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "install": "npm run compile",
-    "test": "npm run compile && NODE_DEBUG=\"test/dbrickashaw-test.js\" 6to5-node test/harness.js test/**/*-test.js",
+    "test": "npm run compile && 6to5-node test/harness.js test/**/*-test.js",
     "start": "npm run compile && node server.js",
     "compile": "6to5 --optional selfContained --modules common --out-dir dist index.js"
   },

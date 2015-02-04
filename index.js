@@ -5,8 +5,6 @@ import debuglog from 'debuglog';
 import { EventEmitter } from 'events';
 
 
-export const logger = new Relay();
-
 export default class Dbrickashaw extends EventEmitter {
 
     constructor(name = caller()) {
@@ -23,6 +21,12 @@ export default class Dbrickashaw extends EventEmitter {
             message = typeof message === 'string' ? message : JSON.stringify(message);
             this.debuglog('%d\t%s\t%s', ts, tags.join(','), message);
         });
+
+        Dbrickashaw.getRelay().register(this);
+    }
+
+    static getRelay() {
+        return Dbrickashaw.relay || (Dbrickashaw.relay = Relay.create());
     }
 
     static createLogger() {
@@ -42,12 +46,15 @@ export default class Dbrickashaw extends EventEmitter {
         tags = Array.isArray(tags) ? tags : [ tags ];
         this.log(['error', ...tags], ...rest);
     }
+
 }
 
 
 export class Relay extends EventEmitter {
     constructor() {
-        this.emitters = new WeakMap();
+        EventEmitter.call(this);
+        this.emitters = null;
+        this.clear();
     }
 
     static create() {
@@ -71,6 +78,10 @@ export class Relay extends EventEmitter {
             emitter.removeListener('log', handler);
             this.emitters.delete(emitter);
         }
+    }
+
+    clear() {
+        this.emitters = new WeakMap();
     }
 }
 
