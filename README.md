@@ -3,17 +3,19 @@ dbrickashaw
 
 #### Basic Usage
 ```javascript
-// index.js
+// index.js (module API)
 import { Relay } from 'dbrickashaw'
 
-export let logger = new Relay();
+export let logger = new Relay(); // or Relay.create();
  ```
 
- ```
- // mycode.js
- import Dbrickashaw from 'dbrickashaw';
+ ```javascript
+// mycode.js
+import Dbrickashaw from 'dbrickashaw';
 
- let logger = new Dbrickashaw(); // or Dbrickashaw.createLogger();
+let logger = new Dbrickashaw(); // or Dbrickashaw.createLogger();
 
- logger.log('mytag', 'My data.');
+export let function foo() {
+	 logger.log('info', 'Foo called.');
+}
  ```
