@@ -5,6 +5,8 @@ import debuglog from 'debuglog';
 import { EventEmitter } from 'events';
 
 
+const LEVELS = ['silly', 'debug', 'verbose', 'info', 'warn', 'error'];
+
 export default class Dbrickashaw extends EventEmitter {
 
     constructor(name = caller()) {
@@ -22,15 +24,22 @@ export default class Dbrickashaw extends EventEmitter {
             this.debuglog('%d\t%s\t%s', ts, tags.join(','), message);
         });
 
+        for (let level of LEVELS) {
+            this[level] = function (tags, ...rest) {
+                tags = Array.isArray(tags) ? tags : [ tags ];
+                this.log([level, ...tags], ...rest);
+            }
+        }
+
         Dbrickashaw.getRelay().register(this);
     }
 
     static getRelay() {
-        return Dbrickashaw.relay || (Dbrickashaw.relay = Relay.create());
+        return Dbrickashaw.RELAY || (Dbrickashaw.RELAY = Relay.create());
     }
 
-    static createLogger() {
-        return new Dbrickashaw(...arguments);
+    static createLogger(name = caller()) {
+        return new Dbrickashaw(name);
     }
 
     log(tags, data) {
@@ -42,19 +51,13 @@ export default class Dbrickashaw extends EventEmitter {
         });
     }
 
-    error(tags, ...rest) {
-        tags = Array.isArray(tags) ? tags : [ tags ];
-        this.log(['error', ...tags], ...rest);
-    }
-
 }
 
 
 export class Relay extends EventEmitter {
     constructor() {
         EventEmitter.call(this);
-        this.emitters = null;
-        this.clear();
+        this.emitters = new WeakMap();
     }
 
     static create() {
@@ -63,8 +66,8 @@ export class Relay extends EventEmitter {
 
     register(emitter) {
         if (!this.emitters.has(emitter)) {
-            let handler = () => {
-                this.emit('log', ...arguments);
+            let handler = (...args) => {
+                this.emit('log', ...args);
             };
 
             this.emitters.set(emitter, handler);
