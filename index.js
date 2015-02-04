@@ -64,27 +64,32 @@ export class Relay extends EventEmitter {
         return new Relay();
     }
 
-    register(emitter) {
-        if (!this.emitters.has(emitter)) {
+    register({ logger = arguments[0] }) {
+        // Allow a module to be passed provided it exports a property named logger.
+        // Otherwise assume the provided argument is the emitter itself.
+        if (!(logger === this) && !this.emitters.has(logger)) {
             let handler = (...args) => {
                 this.emit('log', ...args);
             };
 
-            this.emitters.set(emitter, handler);
-            emitter.on('log', handler);
+            this.emitters.set(logger, handler);
+            logger.on('log', handler);
         }
+        return this;
     }
 
-    unregister(emitter) {
-        if (this.emitters.has(emitter)) {
-            let handler = this.emitters.get(emitter);
-            emitter.removeListener('log', handler);
-            this.emitters.delete(emitter);
+    unregister({ logger = arguments[0] }) {
+        if (this.emitters.has(logger)) {
+            let handler = this.emitters.get(logger);
+            logger.removeListener('log', handler);
+            this.emitters.delete(logger);
         }
+        return this;
     }
 
     clear() {
         this.emitters = new WeakMap();
+        return this;
     }
 }
 
