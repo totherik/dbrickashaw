@@ -148,8 +148,5 @@ import Dbrickashaw from 'dbrickashaw';
 
 export const logger = Dbrickashaw.getRelay().register(themodule);
 
-## Basic Examples
-
-theodule.doThings();
-
+themodule.doThings();
 ```
