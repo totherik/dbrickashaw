@@ -44,7 +44,7 @@ export const logger = Dbrickashaw.getRelay();
 import producer from 'producer';
 
 producer.logger.on('log', ({ source, ts, tags, data }) => {
-	// Write the information to the logging appender/mechanism you choose.
+	// Write the information to the logging appender/mechanism the consumer chooses.
 });
 ```
 
