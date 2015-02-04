@@ -79,6 +79,8 @@ export class Relay extends EventEmitter {
     }
 
     unregister({ logger = arguments[0] }) {
+        // Allow a module to be passed provided it exports a property named logger.
+        // Otherwise assume the provided argument is the emitter itself.
         if (this.emitters.has(logger)) {
             let handler = this.emitters.get(logger);
             logger.removeListener('log', handler);
