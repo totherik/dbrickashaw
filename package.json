@@ -23,5 +23,16 @@
     "6to5-runtime": "^3.3.10",
     "glob": "^4.3.5",
     "tape": "^3.5.0"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/totherik/dbrickashaw.git"
+  },
+  "bugs": {
+    "url": "https://github.com/totherik/dbrickashaw/issues"
+  },
+  "homepage": "https://github.com/totherik/dbrickashaw"
 }
