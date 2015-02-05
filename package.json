@@ -1,6 +1,6 @@
 {
   "name": "dbrickashaw",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "A simple logging helper for npm modules.",
   "main": "dist/index.js",
   "scripts": {
