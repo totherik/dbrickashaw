@@ -1,10 +1,10 @@
 dbrickashaw
 ===========
 
-`dbrickashaw` is a module for communicating logging information to module consumers without dictating the mechanism
-by which they log. This is intended for use by module authors to both capture logged data and provide it to consumers.
-
-This module also supports composition of module logging via the exported logger/Relay.
+`dbrickashaw`, or `dshaw` for short, is a module for communicating logging information to module consumers without
+dictating the mechanism by which they log. This is intended for use by module authors to both capture logged data and
+provide it to consumers. This module also supports composition of module logging via the exported logger/emitter,
+referred to below as the `Relay`.
 
 ## Concepts
 
