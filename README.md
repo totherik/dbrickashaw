@@ -156,9 +156,9 @@ export function run() {
 #### Consumer
 ```javascript
 // consumer.js
-import themodule from 'themodule'
+import mymodule from 'mymodule'
 
-themodule.publisher.on('log', ({ source, ts, tags, data }) => {
+mymodule.publisher.on('log', ({ source, ts, tags, data }) => {
 	console.log(source, data);
 });
 
@@ -170,10 +170,10 @@ themodule.doThings();
 #### Producer and Consumer
 ```javascript
 // producer_and_consumer.js
-import themodule from 'themodule'
+import mymodule from 'mymodule'
 import Dbrickashaw from 'dbrickashaw';
 
-export const publisher = Dbrickashaw.getPublisher().observe(themodule);
+export const publisher = Dbrickashaw.getPublisher().observe(mymodule);
 
-themodule.doThings();
+mymodule.doThings();
 ```
