@@ -7,7 +7,7 @@ publisher.on('log', function ({ source, ts, tags, data }) {
 });
 
 
-//C onsumers can also filter events...
+// Consumers can also filter events...
 let errors = publisher.filter(({ tags }) => tags.error );
 errors.on('log', function ({ source, ts, tags, data }) {
     if (data instanceof Error) {
