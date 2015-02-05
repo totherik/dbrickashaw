@@ -75,24 +75,25 @@ test('Dbrickashaw', function (t) {
 
     t.test('filter', t => {
         let name = 'filter';
-
         let publisher = Dbrickashaw.getPublisher();
-        let filtered = publisher.filter(function (event) {
-            return event.error;
+        let filtered = publisher.filter(function ({ tags }) {
+            return tags.error;
         });
+
+        t.plan(10);
 
         let event = 0;
         publisher.on('log', ({ source, ts, tags, data }) => {
             event += 1;
-
-            t.equal(source, name);
-
+            
             if (event === 1) {
+                t.equal(source, name);
                 t.ok(tags.info);
                 t.equal(data, 'foo');
                 return;
             }
 
+            t.equal(source, name);
             t.ok(tags.error);
             t.equal(data, 'bar');
         });
@@ -109,5 +110,5 @@ test('Dbrickashaw', function (t) {
         logger.error(null, 'bar');
         t.end();
     });
-    
+
 });
