@@ -13,7 +13,8 @@ via an exported emitter, referred to below as the `Publisher`.
 The `logger` is the mechanism by which a module communicates data, such as
 debugging information, etc. for observation. When authoring a module using
 `dbrickashaw`, everywhere you want to communicate runtime data you would use a
-`dbrickashaw` logger. You'll most likely want to create these loggers once at initialization time and use throughout your code at execution time.
+`dbrickashaw` logger. You'll most likely want to create these loggers once at
+initialization time and use throughout your code at execution time.
 
 For example:
 
@@ -95,13 +96,16 @@ Get the publisher for the current module. A Publisher is merely an EventEmitter.
 ### Methods
 ##### `observe(emitter || { publisher = Emitter })`
 Start observing the provided emitter with the current publisher. This emitter's
-`log` events will by proxied through this Publisher.
+`log` events will be proxied through this Publisher.
 - `emitter` (EventEmitter or object with a `publisher` property to which an
-Event Emitter is assigned.) This is the object whose `log` events will be
-observed and relayed to Publisher subscribers.
+EventEmitter is assigned.) This is the object whose `log` events will be
+observed and relayed to subscribers.
 
 ##### `unobserve(emitter || { publisher = Emitter })`
 Removes the provided emitter from observation by the Publisher.
+- `emitter` (EventEmitter or object with a `publisher` property to which an
+EventEmitter is assigned.) This is the object whose `log` events will be
+observed and relayed to subscribers.
 
 ##### `clear()`
 Removes all emitters from observation by the Publisher.
