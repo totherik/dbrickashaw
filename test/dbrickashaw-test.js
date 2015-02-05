@@ -5,21 +5,39 @@ import Dbrickashaw from '../dist/index';
 
 test('Dbrickashaw', function (t) {
 
-    t.test('instance', t => {
-        let name = 'dbrickashaw:' + Path.join(Path.basename(__dirname), Path.basename(__filename));
-        let logger = Dbrickashaw.createLogger();
-        t.ok(logger);
-        t.equal(logger.name, name);
+    let reset = () => {
+        let publisher = Dbrickashaw.getPublisher();
+        publisher.clear();
+        publisher.removeAllListeners();
+    };
+
+    t.test('clear', t => {
+        t.plan(2);
+
+        let publisher = Dbrickashaw.getPublisher();
+        publisher.on('log', ({ source, data }) => {
+            t.equal(source, 'clear');
+            t.equal(data, 'foo');
+        });
+
+        let logger = Dbrickashaw.createLogger('clear');
+        logger.log(null, 'foo'); // Should trigger
+        publisher.clear();
+        logger.log(null, 'foo'); // Should not trigger
+
+        reset();
         t.end();
     });
 
 
-    t.test('custom name', t => {
-        let name = 'test_name';
+    t.test('event data', t => {
+        t.plan(8);
+
+        let name = 'data';
         let tag = 'error';
         let message = 'This is an error';
-
         let logger = Dbrickashaw.createLogger(name);
+
         t.ok(logger);
         t.equal(logger.name, name);
 
@@ -33,15 +51,42 @@ test('Dbrickashaw', function (t) {
             t.equal(tags[0], tag);
 
             t.equal(data, message);
-
-            t.end();
         });
 
         logger.log(tag, message);
+        reset();
+        t.end();
+    });
+
+    t.test('generated name', t => {
+        t.plan(2);
+
+        let name = 'dbrickashaw:' + Path.join(Path.basename(__dirname), Path.basename(__filename));
+        let logger = Dbrickashaw.createLogger();
+        t.ok(logger);
+        t.equal(logger.name, name);
+
+        reset();
+        t.end();
+    });
+
+
+    t.test('custom name', t => {
+        t.plan(2);
+
+        let name = 'test_name';
+        let logger = Dbrickashaw.createLogger(name);
+        t.ok(logger);
+        t.equal(logger.name, name);
+
+        reset();
+        t.end();
     });
 
 
     t.test('error', t => {
+        t.plan(14);
+
         let logger = Dbrickashaw.createLogger();
 
         logger.on('log', ({ source, ts, tags, data }) => {
@@ -66,21 +111,23 @@ test('Dbrickashaw', function (t) {
             t.equal(typeof tags.indexOf, 'function');
 
             t.equal(data, 'bar');
-            t.end();
         });
 
         logger.error(['foo', 'length', 'indexOf'], 'bar');
+
+        reset();
+        t.end();
     });
 
 
     t.test('filter', t => {
+        t.plan(10);
+
         let name = 'filter';
         let publisher = Dbrickashaw.getPublisher();
         let filtered = publisher.filter(({ tags }) => tags.error);
-
-        t.plan(10);
-
         let event = 0;
+
         publisher.on('log', ({ source, ts, tags, data }) => {
             event += 1;
 
@@ -101,11 +148,14 @@ test('Dbrickashaw', function (t) {
             t.notOk(tags.info);
             t.ok(tags.error);
             t.equal(data, 'bar');
+            filtered.clear();
         });
 
         let logger = Dbrickashaw.createLogger(name);
         logger.info(null, 'foo');
         logger.error(null, 'bar');
+
+        reset();
         t.end();
     });
 
