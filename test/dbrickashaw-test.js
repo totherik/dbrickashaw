@@ -13,6 +13,7 @@ test('Dbrickashaw', function (t) {
         t.end();
     });
 
+
     t.test('custom name', t => {
         let name = 'test_name';
         let tag = 'error';
@@ -39,6 +40,7 @@ test('Dbrickashaw', function (t) {
         logger.log(tag, message);
     });
 
+
     t.test('error', t => {
         let logger = Dbrickashaw.createLogger();
 
@@ -47,13 +49,26 @@ test('Dbrickashaw', function (t) {
             t.ok(ts);
 
             t.ok(Array.isArray(tags));
+
+            // Ensure array contains requires tags
             t.ok(tags.indexOf('foo') !== -1);
             t.ok(tags.indexOf('error') !== -1);
+            t.ok(tags.indexOf('length') !== -1);
+            t.ok(tags.indexOf('indexOf') !== -1);
+
+            // Ensure object has appropriate tags as properties
+            // but tags do not override existing props.
+            t.ok(tags.foo);
+            t.ok(tags.error);
+            t.notOk(tags.info);
+            t.equal(tags.length, 4);
+            t.equal(typeof tags.length, 'number');
+            t.equal(typeof tags.indexOf, 'function');
 
             t.equal(data, 'bar');
             t.end();
         });
 
-        logger.error('foo', 'bar');
+        logger.error(['foo', 'length', 'indexOf'], 'bar');
     });
 });

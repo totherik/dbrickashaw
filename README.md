@@ -115,7 +115,9 @@ Removes all emitters from observation by the Publisher.
 The event emitter when a downstream logger logs. The provided data has the
 following properties:
 - `source` - The name of the logger that logged the event.
-- `tags` - An array of strings.
+- `tags` - An array of strings. Additionally, each tag is a property such that
+a tag's existence can be tested for via `if (tags.info) { /* ... */ }` (as
+opposed to searching the array).
 - `ts` - The time, in milliseconds, when the logging occurred.
 - `data` - Arbitrary data that was provided when invoking the log method.
 
