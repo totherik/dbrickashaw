@@ -1,19 +1,19 @@
 import caller from 'caller';
-import Relay from './lib/relay';
+import Publisher from './lib/publisher';
 import Logger from './lib/logger';
 
 
-const RELAY = new Relay();
+const PUBLISHER = new Publisher();
 
 export default {
 
-    getRelay() {
-        return RELAY;
+    getPublisher() {
+        return PUBLISHER;
     },
 
     createLogger(name = caller()) {
         let logger = new Logger(name);
-        this.getRelay().observe(logger);
+        this.getPublisher().observe(logger);
         return logger;
     }
 

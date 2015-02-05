@@ -1,18 +1,19 @@
 dbrickashaw
 ===========
 
-`dbrickashaw`, or `dshaw` for short, is a module for communicating logging information to module consumers without
-dictating the mechanism by which they log. This is intended for use by module authors to both capture logged data and
-provide it to consumers. This module also supports composition of module logging via the exported logger/emitter,
-referred to below as the `Relay`.
+`dbrickashaw`, or `dshaw` for short, is a module for communicating logging
+information to module consumers without dictating the mechanism by which they
+log. This is intended for use by module authors to both capture logged data and
+provide it to consumers. This module also supports composition of module logging
+via an exported emitter, referred to below as the `Publisher`.
 
 ## Concepts
 
 ### Logger
-The `logger` is the mechanism by which a module communicates data, such as debugging information, etc. for observation.
-When authoring a module using `dbrickashaw`, everywhere you want to communicate runtime data you would use a
-`dbrickashaw` logger. You'll most likely want to create these loggers once at initialization time and use throughout
-your code at execution time.
+The `logger` is the mechanism by which a module communicates data, such as
+debugging information, etc. for observation. When authoring a module using
+`dbrickashaw`, everywhere you want to communicate runtime data you would use a
+`dbrickashaw` logger. You'll most likely want to create these loggers once at initialization time and use throughout your code at execution time.
 
 For example:
 
@@ -27,36 +28,40 @@ export function doMyJob() {
 }
 ```
 
-### Relay
-As a module author, you also want to make this data available to consumers of your module without being overly
-prescriptive as to what they choose to do with the data. This is where the `Relay` comes in. Simply export the
-`dbrickashaw` relay as `logger` or some other obvious name, such that consumers of your code can observe any
+### Publisher
+As a module author, you also want to make this data available to consumers of
+your module without being overly prescriptive as to what they choose to do with
+the data. This is where the `Publisher` comes in. The Publisher is simply an
+EventEmitter that will emit the aggregate of all of 'log' invocations through
+a given module. Simply export the `dbrickashaw` publisher as `publisher` (or
+some other obvious name), such that consumers of your code can observe any
 logging information your module may produce.
 ```javascript
 // producer.js
 import Dbrickashaw from 'dbrickashaw';
 
-export const logger = Dbrickashaw.getRelay();
+export const publisher = Dbrickashaw.getPublisher();
 ```
 
 ```javascript
 // consumer.js
 import producer from 'producer';
 
-producer.logger.on('log', ({ source, ts, tags, data }) => {
+producer.publisher.on('log', ({ source, ts, tags, data }) => {
 	// Write the information to the logging appender/mechanism the consumer chooses.
 });
 ```
 
-Furthermore, if you as a module author choose to expose your logging data as well as the logging data of modules you
-consume that may use `dbrickashaw`, you can simply compose and expose relays.
+Furthermore, if you as a module author choose to expose your logging data as
+well as the logging data of modules you consume that may use `dbrickashaw`, you
+can simply compose and expose publishers.
 
 ```javascript
 // consumer_and_producer.js
 import producer from 'producer';
 import Dbrickashaw from 'dbrickashaw';
 
-export const logger = Dbrickashaw.getRelay().observe(producer);
+export const publisher = Dbrickashaw.getPublisher().observe(producer);
 ```
 
 # API
@@ -77,29 +82,29 @@ event as an array of of strings. NOTE: If no additional tags are desired, pass a
 falsy value, such as `null` in the first position.
 - `data` The data payload to be logged. Emitter on the log event as `data`.
 
-NOTE: In addition to the generic log method, the following methods are also available:
-`silly`, `debug`, `verbose`, `info`, `warn`, and `error`. Each of these methods
-behave identically to `log` except they automatically include a tag for their
-given level.
+NOTE: In addition to the generic log method, the following methods are also
+available: `silly`, `debug`, `verbose`, `info`, `warn`, and `error`. Each of
+these methods behave identically to `log` except they automatically include a
+tag for their given level.
 
 
-## Relay
-##### `Dbrickashaw.getRelay()`
-Get the relay for the current module. A Relay is also an EventEmitter
+## Publisher
+##### `Dbrickashaw.getPublisher()`
+Get the publisher for the current module. A Publisher is merely an EventEmitter.
 
 ### Methods
-##### `observe(emitter | { logger = Emitter })`
-Start observing the provided emitter with the current relay. This emitter's `log`
-events will by proxied through this Relay.
-- `emitter` (EventEmitter or object with a `logger` property to which an
+##### `observe(emitter || { publisher = Emitter })`
+Start observing the provided emitter with the current publisher. This emitter's
+`log` events will by proxied through this Publisher.
+- `emitter` (EventEmitter or object with a `publisher` property to which an
 Event Emitter is assigned.) This is the object whose `log` events will be
-observed and relayed to Relay observers.
+observed and relayed to Publisher subscribers.
 
-##### `unobserve(emitter | { logger = Emitter })`
-Removes the provided emitter from observation by the Relay.
+##### `unobserve(emitter || { publisher = Emitter })`
+Removes the provided emitter from observation by the Publisher.
 
 ##### `clear()`
-Removes all emitters from observation by the Relay.
+Removes all emitters from observation by the Publisher.
 
 ### Events
 ##### `'log'`
@@ -112,7 +117,7 @@ following properties:
 
 ```javascript
 // example.js
-logger.on('log', ({ source, tags, ts, data }) => {
+publisher.on('log', ({ source, tags, ts, data }) => {
 	console.log(source, data);
 });
 ```
@@ -124,7 +129,7 @@ logger.on('log', ({ source, tags, ts, data }) => {
 import Dbrickashaw from 'dbrickashaw'
 import mycode from './mycode.js';
 
-export const logger = Dbrickashaw.getRelay();
+export const publisher = Dbrickashaw.getPublisher();
 export function doThings() {
 	mycode.run();
 }
@@ -137,7 +142,7 @@ import Dbrickashaw from 'dbrickashaw';
 let logger = Dbrickashaw.createLogger();
 
 export function run() {
-	 logger.log('info', 'Foo called.');
+	logger.log('info', 'Foo called.');
 }
  ```
 
@@ -147,7 +152,7 @@ export function run() {
 // consumer.js
 import themodule from 'themodule'
 
-themodule.logger.on('log', ({ source, ts, tags, data }) => {
+themodule.publisher.on('log', ({ source, ts, tags, data }) => {
 	console.log(source, data);
 });
 
@@ -162,7 +167,7 @@ themodule.doThings();
 import themodule from 'themodule'
 import Dbrickashaw from 'dbrickashaw';
 
-export const logger = Dbrickashaw.getRelay().observe(themodule);
+export const publisher = Dbrickashaw.getPublisher().observe(themodule);
 
 themodule.doThings();
 ```
