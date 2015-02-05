@@ -7,7 +7,7 @@
     "prepublish": "npm run compile",
     "test": "npm run compile && 6to5-node test/harness.js test/**/*-test.js",
     "start": "npm run compile && node server.js",
-    "compile": "6to5 --optional selfContained --modules common --out-dir dist index.js"
+    "compile": "6to5 --optional selfContained --modules common --out-dir dist index.js lib/**.js"
   },
   "keywords": [
     "logging",

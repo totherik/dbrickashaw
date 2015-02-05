@@ -1,6 +1,6 @@
 import test from 'tape'
 import Path from 'path';
-import { Common } from '../dist/index';
+import Common from '../dist/lib/common.js';
 
 
 test('Common', function (t) {

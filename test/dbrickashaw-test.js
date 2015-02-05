@@ -7,7 +7,7 @@ test('Dbrickashaw', function (t) {
 
     t.test('instance', t => {
         let name = 'dbrickashaw:' + Path.join(Path.basename(__dirname), Path.basename(__filename));
-        let logger = new Dbrickashaw();
+        let logger = Dbrickashaw.createLogger();
         t.ok(logger);
         t.equal(logger.name, name);
         t.end();
@@ -18,7 +18,7 @@ test('Dbrickashaw', function (t) {
         let tag = 'error';
         let message = 'This is an error';
 
-        let logger = new Dbrickashaw(name);
+        let logger = Dbrickashaw.createLogger(name);
         t.ok(logger);
         t.equal(logger.name, name);
 
@@ -40,7 +40,7 @@ test('Dbrickashaw', function (t) {
     });
 
     t.test('error', t => {
-        let logger = new Dbrickashaw();
+        let logger = Dbrickashaw.createLogger();
 
         logger.on('log', ({ source, ts, tags, data }) => {
             t.ok(source);
