@@ -85,7 +85,7 @@ test('Dbrickashaw', function (t) {
         let event = 0;
         publisher.on('log', ({ source, ts, tags, data }) => {
             event += 1;
-            
+
             if (event === 1) {
                 t.equal(source, name);
                 t.ok(tags.info);
