@@ -110,6 +110,8 @@ observed and relayed to subscribers.
 ##### `filter(predicate)`
 Returns a *new* publisher which will only emit events that fulfill the provided
 predicate. This can be useful for branching events based on metadata such as tags.
+- `predicate` A function that accepts a log event data object as its only
+argument and returns true or false.
 
 ##### `clear()`
 Removes all emitters from observation by the Publisher.
