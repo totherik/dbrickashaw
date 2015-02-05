@@ -76,9 +76,7 @@ test('Dbrickashaw', function (t) {
     t.test('filter', t => {
         let name = 'filter';
         let publisher = Dbrickashaw.getPublisher();
-        let filtered = publisher.filter(function ({ tags }) {
-            return tags.error;
-        });
+        let filtered = publisher.filter(({ tags }) => tags.error);
 
         t.plan(10);
 
