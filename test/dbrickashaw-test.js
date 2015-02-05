@@ -71,4 +71,42 @@ test('Dbrickashaw', function (t) {
 
         logger.error(['foo', 'length', 'indexOf'], 'bar');
     });
+
+
+    t.test('filter', t => {
+        let name = 'filter';
+        let publisher = Dbrickashaw.getPublisher();
+        let filtered = publisher.filter(({ tags }) => tags.error);
+
+        t.plan(10);
+
+        let event = 0;
+        publisher.on('log', ({ source, ts, tags, data }) => {
+            event += 1;
+
+            if (event === 1) {
+                t.equal(source, name);
+                t.ok(tags.info);
+                t.equal(data, 'foo');
+                return;
+            }
+
+            t.equal(source, name);
+            t.ok(tags.error);
+            t.equal(data, 'bar');
+        });
+
+        filtered.on('log', ({ source, ts, tags, data }) => {
+            t.equal(source, name);
+            t.notOk(tags.info);
+            t.ok(tags.error);
+            t.equal(data, 'bar');
+        });
+
+        let logger = Dbrickashaw.createLogger(name);
+        logger.info(null, 'foo');
+        logger.error(null, 'bar');
+        t.end();
+    });
+
 });
