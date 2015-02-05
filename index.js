@@ -1,7 +1,6 @@
 import caller from 'caller';
 import Relay from './lib/relay';
 import Logger from './lib/logger';
-import { EventEmitter } from 'events';
 
 
 const RELAY = new Relay();
