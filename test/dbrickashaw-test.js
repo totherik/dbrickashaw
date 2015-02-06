@@ -16,7 +16,7 @@ test('Dbrickashaw', function (t) {
 
         let publisher = Dbrickashaw.getPublisher();
         publisher.on('log', ({ source, data }) => {
-            t.equal(source, 'clear');
+            t.equal('' + source, 'clear');
             t.equal(data, 'foo');
         });
 
@@ -42,7 +42,7 @@ test('Dbrickashaw', function (t) {
         t.equal(logger.name, name);
 
         logger.on('log', ({ source, ts, tags, data }) => {
-            t.equal(source, name);
+            t.equal('' + source, name);
 
             t.ok(typeof ts === 'number');
             t.ok(ts <= Date.now());
@@ -132,19 +132,19 @@ test('Dbrickashaw', function (t) {
             event += 1;
 
             if (event === 1) {
-                t.equal(source, name);
+                t.equal('' + source, name);
                 t.ok(tags.info);
                 t.equal(data, 'foo');
                 return;
             }
 
-            t.equal(source, name);
+            t.equal('' + source, name);
             t.ok(tags.error);
             t.equal(data, 'bar');
         });
 
         filtered.on('log', ({ source, ts, tags, data }) => {
-            t.equal(source, name);
+            t.equal('' + source, name);
             t.notOk(tags.info);
             t.ok(tags.error);
             t.equal(data, 'bar');
