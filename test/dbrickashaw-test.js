@@ -159,4 +159,18 @@ test('Dbrickashaw', function (t) {
         t.end();
     });
 
+
+    t.test('decorate', t => {
+        let m = {
+            exports: {}
+        };
+
+        Dbrickashaw.decorate(m);
+        setImmediate(() => {
+            t.ok(m.exports);
+            t.ok(m.exports.publisher);
+            t.strictEqual(m.exports.publisher, Dbrickashaw.getPublisher());
+            t.end();
+        });
+    });
 });
