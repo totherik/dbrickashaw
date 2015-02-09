@@ -8,7 +8,7 @@ const PUBLISHER = new Publisher();
 
 export default {
 
-    instrument(parent) {
+    enable(parent) {
         if (Thing.isPrimitive(parent.exports)) {
             return;
         }
