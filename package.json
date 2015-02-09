@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "caller": "^1.0.0",
+    "core-util-is": "^1.0.1",
     "debuglog": "^1.0.1"
   },
   "devDependencies": {

@@ -159,4 +159,36 @@ test('Dbrickashaw', function (t) {
         t.end();
     });
 
+
+    t.test('decorate', t => {
+        let m = {
+            exports: {}
+        };
+
+        Dbrickashaw.decorate(m);
+        t.ok(m.exports);
+        t.ok(m.exports.publisher);
+        t.strictEqual(m.exports.publisher, Dbrickashaw.getPublisher());
+
+        // Simulate `module.exports = {}` after `decorate` is called.
+        m.exports = {};
+
+        // Back up existing listeners
+        let listeners = process.listeners('uncaughtException');
+        process.removeAllListeners('uncaughtException');
+
+        process.on('uncaughtException', (err) => {
+            t.ok(err);
+            t.equal(err.message, 'Publisher export overwritten.');
+
+            // Reset listeners
+            process.removeAllListeners('uncaughtException');
+            for (let listener of listeners) {
+                process.on('uncaughtException', listener);
+            }
+
+            t.end();
+        });
+    });
+
 });
