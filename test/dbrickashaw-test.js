@@ -166,11 +166,9 @@ test('Dbrickashaw', function (t) {
         };
 
         Dbrickashaw.decorate(m);
-        setImmediate(() => {
-            t.ok(m.exports);
-            t.ok(m.exports.publisher);
-            t.strictEqual(m.exports.publisher, Dbrickashaw.getPublisher());
-            t.end();
-        });
+        t.ok(m.exports);
+        t.ok(m.exports.publisher);
+        t.strictEqual(m.exports.publisher, Dbrickashaw.getPublisher());
+        t.end();
     });
 });

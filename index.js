@@ -16,17 +16,11 @@ export default {
         }
 
         if (parent.exports && !Thing.isUndefined(parent.exports[PROP])) {
-            throw new Error('Publisher already exported on module.');
+            throw new Error('Module already exports property `publisher`.');
         }
 
-        // Here we use a microtask so this can be put anywhere in
-        // the file of the module being decorated and still operate
-        // on the exported object.
-        setImmediate(() => {
-            // Assign with default values such that it's non-enumerable, etc.
-            Object.defineProperty(parent.exports, PROP, {
-                value: this.getPublisher()
-            });
+        Object.defineProperty(parent.exports, PROP, {
+            value: this.getPublisher()
         });
     },
 
