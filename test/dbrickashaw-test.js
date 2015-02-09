@@ -171,4 +171,5 @@ test('Dbrickashaw', function (t) {
         t.strictEqual(m.exports.publisher, Dbrickashaw.getPublisher());
         t.end();
     });
+
 });

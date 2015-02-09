@@ -22,6 +22,20 @@ export default {
         Object.defineProperty(parent.exports, PROP, {
             value: this.getPublisher()
         });
+
+        // Fail if someone accidentally...
+        // <code>
+        //     Dbrickashaw.decorate(module);
+        //
+        //     /* ... sometime later */
+        //
+        //     module.exports = { /* ... */ };
+        // </code>
+        setImmediate(() => {
+            if (!(PROP in parent.exports) || parent.exports[PROP] !== this.getPublisher()) {
+                throw new Error('Publisher export overwritten.');
+            }
+        });
     },
 
     getPublisher() {
