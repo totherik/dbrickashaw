@@ -1,6 +1,8 @@
 dbrickashaw
 ===========
 
+[![Build Status](https://travis-ci.org/totherik/dbrickashaw.svg?branch=master)](https://travis-ci.org/totherik/dbrickashaw)
+
 `dbrickashaw`, or `dshaw` for short, is a module for communicating logging
 information to module consumers without dictating the mechanism by which they
 log. This is intended for use by module authors to both capture logged data and
