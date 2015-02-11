@@ -67,14 +67,6 @@ export const publisher = Dbrickashaw.getPublisher().observe(producer);
 
 # API
 
-##### `Dbrickashaw.decorate(module)`
-Decorate the current module with the `publisher` property such that it can be
-observed by dependents.
-- `module` (Object) - The `module` pseudo-global variable. It should be the
-module object for the "main" file and/or the API that is exported by the npm
-module. Otherwise, it can be any object that has a property named `exports`
-which has a mutable object for a value, e.g. `{ exports: {} }`.
-
 ## Logger
 ##### `Dbrickashaw.createLogger([name])`
 Create an instance of logger for use in a module file.
