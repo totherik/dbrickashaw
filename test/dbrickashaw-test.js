@@ -2,7 +2,6 @@ import test from 'tape'
 import Path from 'path';
 import Dbrickashaw from '../dist/index';
 
-
 test('Dbrickashaw', function (t) {
 
     let reset = () => {
@@ -61,7 +60,8 @@ test('Dbrickashaw', function (t) {
     t.test('generated name', t => {
         t.plan(2);
 
-        let name = 'dbrickashaw:' + Path.join(Path.basename(__dirname), Path.basename(__filename));
+        let pkg = require('../package.json');
+        let name = pkg.name + '@' + pkg.version + ':' + Path.join(Path.basename(__dirname), Path.basename(__filename));
         let logger = Dbrickashaw.createLogger();
         t.ok(logger);
         t.equal(logger.name, name);
