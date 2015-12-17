@@ -60,6 +60,7 @@ well as the logging data of modules you consume that may use `dbrickashaw`, you
 can simply compose and expose publishers.
 
 This is also done automatically under the `global` object `__dbrickashaw` under the key `name` of the logger.
+These publishers are also accessible using `Dbrickashaw.getAggregatePublishers()`.
 
 ```javascript
 // consumer_and_producer.js
@@ -96,6 +97,9 @@ tag for their given level.
 ## Publisher
 ##### `Dbrickashaw.getPublisher()`
 Get the publisher for the current module. A Publisher is merely an EventEmitter.
+
+##### `Dbrickashaw.getAggregatePublishers()`
+Get the publishers of all modules. Returns an object with logger names as keys.
 
 ### Methods
 ##### `observe(emitter || { publisher = Emitter })`
