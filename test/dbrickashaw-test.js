@@ -83,6 +83,20 @@ test('Dbrickashaw', function (t) {
         t.end();
     });
 
+    t.test('exposed publisher', t => {
+        t.plan(4);
+
+        let name = 'test_global';
+        let logger = Dbrickashaw.createLogger(name);
+        t.ok(logger);
+        t.equal(logger.name, name);
+        t.ok(global.__dbrickashaw);
+        t.ok(global.__dbrickashaw.test_global);
+
+        reset();
+        t.end();
+    });
+
 
     t.test('error', t => {
         t.plan(14);
