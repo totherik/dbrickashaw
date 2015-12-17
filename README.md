@@ -59,6 +59,8 @@ Furthermore, if you as a module author choose to expose your logging data as
 well as the logging data of modules you consume that may use `dbrickashaw`, you
 can simply compose and expose publishers.
 
+This is also done automatically under the `global` object `__dbrickashaw` under the key `name` of the logger.
+
 ```javascript
 // consumer_and_producer.js
 import producer from 'producer';
