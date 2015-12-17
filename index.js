@@ -14,7 +14,7 @@ export default {
         return PUBLISHER;
     },
 
-    getAggregatePublishers() {
+    getPublisherAggregate() {
         return global.__dbrickashaw;
     },
 

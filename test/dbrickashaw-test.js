@@ -90,8 +90,8 @@ test('Dbrickashaw', function (t) {
         let logger = Dbrickashaw.createLogger(name);
         t.ok(logger);
         t.equal(logger.name, name);
-        t.ok(Dbrickashaw.getAllPublishers());
-        t.ok(Dbrickashaw.getAllPublishers().test_global);
+        t.ok(Dbrickashaw.getPublisherAggregate());
+        t.ok(Dbrickashaw.getPublisherAggregate().test_global);
         t.ok(global.__dbrickashaw);
         t.ok(global.__dbrickashaw.test_global);
 
