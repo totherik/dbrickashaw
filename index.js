@@ -14,6 +14,10 @@ export default {
         return PUBLISHER;
     },
 
+    getPublisherAggregate() {
+        return global.__dbrickashaw;
+    },
+
     createLogger(name = caller()) {
         let logger = new Logger(name);
         this.getPublisher().observe(logger);
