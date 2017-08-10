@@ -84,7 +84,7 @@ test('Dbrickashaw', function (t) {
     });
 
     t.test('exposed publisher', t => {
-        t.plan(6);
+        t.plan(7);
 
         let name = 'test_global';
         let logger = Dbrickashaw.createLogger(name);
@@ -94,6 +94,10 @@ test('Dbrickashaw', function (t) {
         t.ok(Dbrickashaw.getPublisherAggregate().test_global);
         t.ok(global.__dbrickashaw);
         t.ok(global.__dbrickashaw.test_global);
+
+        Dbrickashaw.getPublisher().unobserve(logger);
+        
+        t.ok(!global.__dbrickashaw.test_global);
 
         reset();
         t.end();

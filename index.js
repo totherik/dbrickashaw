@@ -21,7 +21,6 @@ export default {
     createLogger(name = caller()) {
         let logger = new Logger(name);
         this.getPublisher().observe(logger);
-        global.__dbrickashaw[name] = this.getPublisher().filter(({source}) => source.name === name);
         return logger;
     }
 
