@@ -1,3 +1,12 @@
+### UNRELEASED 
+
+- add to global on observe, and remove on unobserve
+- update tape and remove from main deps
+
+### v5.2.2
+
+- updated to filter publisher in aggregate for name, as per expectation
+
 ### v5.2.1
 
 - Added `module.exports = exports.default` for compatibility.
