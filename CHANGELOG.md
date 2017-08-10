@@ -1,4 +1,4 @@
-### UNRELEASED 
+### v5.2.3 
 
 - add to global on observe, and remove on unobserve
 - update tape and remove from main deps
